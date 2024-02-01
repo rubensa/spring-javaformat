@@ -1,0 +1,47 @@
+# 3.5 Min version needed to allow setting network name (https://github.com/docker/compose/issues/3736)
+# 3.9 Min version for 3.x that supports depends_on condition (https://github.com/compose-spec/compose-spec/blob/master/spec.md#long-syntax-1)
+# docker-compose min version that implements condition is 1.29.0 (https://github.com/docker/compose/releases/tag/1.29.0) which needs docker engine 19.03.0+
+version: '3.9'
+services:
+  spring-javaformat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # Timezone
+      - TZ=Europe/Madrid
+    volumes:
+      # Mounts the project folder to '/workspaces/spring-javaformat'
+      - type: bind
+        source: ../
+        target: /workspaces/spring-javaformat
+      # Docker-from-Docker
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker-host.sock
+      # User ssh keys
+      - type: bind
+        source: ${HOME}/.ssh
+        target: /home/user/.ssh
+      # User git config
+      - type: bind
+        source: ${HOME}/.gitconfig
+        target: /home/user/.gitconfig
+      # VSCode server extensions cache
+      - type: volume
+        source: vscode-server-extensions-cache
+        target: /vscode/vscode-server/extensionsCache
+      # Maven repository cache
+      - type: volume
+        source: m2-repository-cache
+        target: /home/user/.m2/repository
+
+volumes:
+  vscode-server-extensions-cache:
+    # Join a volume with given name
+    external: true
+    name: vscode-server-extensions-cache
+  m2-repository-cache:
+    # Join a volume with given name
+    external: true
+    name: m2-repository-cache

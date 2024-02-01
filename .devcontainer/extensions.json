@@ -1,0 +1,19 @@
+{
+  // An array of extension IDs that specify the extensions that should be installed inside the container when it is created.
+  "extensions": [
+    // Git Graph (https://github.com/mhutchie/vscode-git-graph)
+    "mhutchie.git-graph",
+    // GitLens — Git supercharged (https://github.com/gitkraken/vscode-gitlens)
+    "eamodio.gitlens",
+    // Docker (https: //github.com/microsoft/vscode-docker)
+    "ms-azuretools.vscode-docker",
+    // YAML Language Support by Red Hat, with built-in Kubernetes syntax support (https://github.com/redhat-developer/vscode-yaml)
+    "dgileadi.java-decompiler",
+    // Extension Pack for Java (https://github.com/Microsoft/vscode-java-pack)
+    "vscjava.vscode-java-pack",
+    // Spring Boot Extension Pack (https://github.com/spring-projects/sts4)
+    "vmware.vscode-boot-dev-pack",
+    // Javadoc Tools (https://github.com/madhavd1/vscode-javadoc-tools)
+    "madhavd1.javadoc-tools"
+  ]
+}

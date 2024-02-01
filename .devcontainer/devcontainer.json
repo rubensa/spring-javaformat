@@ -1,0 +1,209 @@
+{
+  // see: https://github.com/devcontainers/spec/blob/main/docs/specs/devcontainerjson-reference.md
+  // see: https://containers.dev/implementors/json_reference/
+  // see: https://code.visualstudio.com/docs/getstarted/settings#_default-settings
+  // see: https://code.visualstudio.com/docs/editor/variables-reference
+  ////////////////////////
+  // General properties //
+  ////////////////////////
+  // A display name for the container.
+  "name": "spring-javaformat",
+  // A set of name-value pairs that sets or overrides environment variables for the devcontainer.json supporting
+  // service / tool (or sub-processes like terminals) but not the container as a whole.
+  "remoteEnv": {
+    // You can reference the env var when running Docker commands from the terminal inside the container.
+    // docker run -it --rm -v "${LOCAL_WORKSPACE_FOLDER//\\/\/}:/workspace" debian bash
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+  },
+  // On Linux, the container user's UID/GID will be updated to match your local user.
+  "updateRemoteUserUID": true,
+  // Indicates the type of shell VS Code should use to "probe" for user environment variables to use by default
+  // while debugging or running a task: none (default), interactiveShell, loginShell, or loginInteractiveShell.
+  // Fire ~/.bashrc, ~/.zshrc before starting VS Code processes
+  "userEnvProbe": "interactiveShell",
+  // Tells VS Code and other devcontainer.json supporting services / tools 
+  // whether they should run /bin/sh -c "while sleep 1000; do :; done" 
+  // when starting the container instead of the container's default command 
+  // (since the container can shut down if the default command fails).
+  "overrideCommand": false,
+  // Indicates whether VS Code and other devcontainer.json supporting tools should stop 
+  // the containers when the related tool window is closed / shut down.
+  "shutdownAction": "stopCompose",
+  ////////////////////////////////////////
+  // Docker Compose specific properties //
+  ////////////////////////////////////////
+  // Path or an ordered list of paths to Docker Compose files.
+  // The path is relative to the devcontainer.json file.
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  // The name of the service VS Code and other devcontainer.json 
+  // supporting services / tools should connect to once running.
+  "service": "spring-javaformat",
+  // An array of services in your Docker Compose configuration that should be started 
+  // by VS Code and other devcontainer.json supporting services / tools. 
+  // These will also be stopped when you disconnect unless "shutdownAction" is "none".
+  "runServices": [
+    "spring-javaformat"
+  ],
+  // Sets the default path that VS Code and other devcontainer.json supporting services / tools 
+  // should open when connecting to the container 
+  // (which is often the path to a volume mount where the source code can be found in the container).
+  "workspaceFolder": "/workspaces/spring-javaformat",
+  ///////////////////////
+  // Lifecycle scripts //
+  ///////////////////////
+  // A command string or list of command arguments to run on the host machine before the container is created.
+  // The command executes from the workspaceFolder locally.
+  "initializeCommand": [
+    ".devcontainer/initializeCommand.sh"
+  ],
+  // A command string or list of command arguments to run inside the container after it has started for the first time.
+  // The commands execute from the workspaceFolder in the container.
+  // The array syntax will invoke the command directly without using a shell.
+  "onCreateCommand": [
+    ".devcontainer/onCreateCommand.sh"
+  ],
+  // Command any tool should wait for before connecting.
+  "waitFor": "onCreateCommand",
+  /////////////////////////////////
+  // VS Code specific properties //
+  /////////////////////////////////
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Adds default settings.json values into a container/machine specific settings file.
+      "settings": {
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        // Language Support for Java(TM) by Red Hat (https://github.com/redhat-developer/vscode-java) //
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        // The JVM to be used by the Java Language Server for RedHat extension
+        // Used by default to cmpile the project if no java.configuration.runtimes is provided.
+        "java.jdt.ls.java.home": "/usr/lib/jvm/17.0",
+        // Map Java Execution Environments to local JDKs.
+        // The "best match" based on your project configuration 
+        // (Eclipse .settings/org.eclipse.jdt.core.prefs or 
+        // .classpath settings, maven pom.xml settings or Gradle build.gradle settings)
+        // is used to compile the project.
+        // The default runtime will be used when you open standalone Java files.
+        "java.configuration.runtimes": [
+          {
+            "name": "JavaSE-1.8",
+            "path": "/usr/lib/jvm/8.0",
+            "default": true
+          },
+          {
+            "name": "JavaSE-11",
+            "path": "/usr/lib/jvm/11.0",
+            "default": true
+          },
+          {
+            "name": "JavaSE-17",
+            "path": "/usr/lib/jvm/17.0"
+          }
+        ],
+        ////////////////////////////////////////////////////////////////
+        // Maven for Java (https://github.com/Microsoft/vscode-maven) //
+        ////////////////////////////////////////////////////////////////
+        // Specifies whether you prefer to use Maven wrapper.
+        "maven.executable.preferMavenWrapper": true,
+        /////////////////////////////////////////////////////////////////
+        // Spring Boot Tools (https://github.com/spring-projects/sts4) //
+        /////////////////////////////////////////////////////////////////
+        // The JVM to be used by the Java Language Server for sts4 extensions
+        "spring-boot.ls.java.home": "/usr/lib/jvm/17.0",
+        ////////////
+        // Editor //
+        ////////////
+        // Controls whether `editor.tabSize#` and `#editor.insertSpaces` will be automatically detected when a file is opened based on the file contents.
+        "editor.detectIndentation": false,
+        // Format a file on save. A formatter must be available, the file must not be saved after delay, and the editor must not be shutting down.
+        "editor.formatOnSave": false,
+        // Insert spaces when pressing Tab. This setting is overridden based on the file contents when #editor.detectIndentation# is on.
+        "editor.insertSpaces": false,
+        ///////////
+        // Files //
+        ///////////
+        // Configure file associations to languages (for example `"*.extension": "html"`). These have precedence over the default associations of the languages installed.
+        "files.associations": {
+          "extensions.local.json": "jsonc"
+        },
+        // Configure glob patterns for excluding files and folders. For example, the File Explorer decides which files and folders to show or hide based on this setting. Refer to the `search.exclude` setting to define search-specific excludes.
+        "files.exclude": {
+          // Default values
+          "**/.git": true,
+          "**/.svn": true,
+          "**/.hg": true,
+          "**/CVS": true,
+          "**/.DS_Store": true,
+          "**/Thumbs.db": true,
+          // Extra
+          "**/tmp/**": true,
+          "**/.gradle": true,
+          "**/.idea": true,
+          "**/.mvn": true,
+          "**/.classpath": true,
+          "**/.project": true,
+          "**/.settings": true,
+          "**/.factorypath": true,
+          // Sub-modules
+          "spring-javaformat": true,
+          "spring-javaformat-eclipse": true,
+          "spring-javaformat-gradle": true,
+          "spring-javaformat-intellij-idea": true,
+          "spring-javaformat-maven": true,
+          "spring-javaformat-vscode": true
+        },
+        // Configure paths or glob patterns to exclude from file watching.
+        "files.watcherExclude": {
+          // Default values
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/*/**": true,
+          "**/.hg/store/**": true,
+          // Extra
+          "**/tmp/**": true,
+          "**/bower_components/**": true,
+          "**/dist/**": true,
+          "**/coverage/**": true
+        },
+        ////////////
+        // Search //
+        ////////////
+        // Configure glob patterns for excluding files and folders in fulltext searches and quick open. Inherits all glob patterns from the `files.exclude` setting.
+        "search.exclude": {
+          // Default values
+          "**/node_modules": true,
+          "**/bower_components": true,
+          "**/*.code-search": true,
+          // Extra
+          "**/target/**": true,
+          "**/dist/**": true,
+          "**/coverage/**": true
+        },
+        //////////////
+        // Terminal //
+        //////////////
+        // The default profile used on Linux. This setting will currently be ignored if either `terminal.integrated.shell.linux` or `terminal.integrated.shellArgs.linux` are set.
+        "terminal.integrated.defaultProfile.linux": "bash",
+        // The Linux profiles to present when creating a new terminal via the terminal dropdown. Set the `path` property manually with an optional `args`.
+        // Set an existing profile to `null` to hide the profile from the list, for example: `"bash": null`.
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "args": [
+              // Run interactive bash shell in VSCode integrated terminal
+              "-i"
+            ]
+          }
+        },
+        ////////////
+        // Remote //
+        ////////////
+        // When enabled, new running processes are detected and ports that they listen on are automatically forwarded. Disabling this setting will not prevent all ports from being forwarded. Even when disabled, extensions will still be able to cause ports to be forwarded, and opening some URLs will still cause ports to forwarded.
+        "remote.autoForwardPorts": false
+      }
+    }
+  }
+}

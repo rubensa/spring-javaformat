@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "path": "spring-javaformat"
+    },
+    {
+      "path": "spring-javaformat-eclipse"
+    },
+    {
+      "path": "spring-javaformat-gradle"
+    },
+    {
+      "path": "spring-javaformat-intellij-idea"
+    },
+    {
+      "path": "spring-javaformat-maven"
+    },
+    {
+      "path": "spring-javaformat-vscode"
+    },
+    {
+      "path": "./"
+    }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "automatic"
+  }
+}
